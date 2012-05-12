@@ -1,0 +1,185 @@
+/*
+isoblocks.coffee
+
+version 1.0
+Author	Kushagra Gour a.k.a. chinchang (chinchang457@gmail.com)
+Licensed under The MIT License
+
+Description:
+IsoBlocks is a library to create eye candy isometric texts.
+
+Usage:
+var iso = new IsoBlocks();
+iso.generate('Any Text here', start_x, start_y);
+*/
+var Colors, Cube, IsoBlocks, onKeyPress;
+
+$(function() {
+  return $('#iso_input').bind('keydown', onKeyPress);
+});
+
+onKeyPress = function(e) {
+  if (e.key === 13 || e.keyCode === 13) {
+    if (iso) return iso.generate($(e.target).val(), 20, 610);
+  }
+};
+
+Cube = (function() {
+
+  function Cube() {}
+
+  Cube.width = 15;
+
+  Cube.height = 15;
+
+  return Cube;
+
+})();
+
+Colors = (function() {
+
+  function Colors() {}
+
+  Colors.colors = ['yellow', 'green', ''];
+
+  Colors.getRandomColor = function() {
+    return Colors.colors[Math.floor(Math.random() * Colors.colors.length)];
+  };
+
+  return Colors;
+
+})();
+
+IsoBlocks = (function() {
+
+  IsoBlocks.prototype.origin_x = 0;
+
+  IsoBlocks.prototype.origin_y = 0;
+
+  IsoBlocks.prototype.character_spacing = 1;
+
+  IsoBlocks.prototype.cubes = [];
+
+  IsoBlocks.prototype.current_cube_index = 0;
+
+  IsoBlocks.prototype.cube_template = '<div class="iso_block @color unused" style="left:@leftpx; top:@toppx"></div>';
+
+  /*
+  	Constructor
+  	@param	num_cubes	Number 	Number of cubes to pre-generate
+  */
+
+  function IsoBlocks(num_cubes) {
+    if (num_cubes == null) num_cubes = 450;
+    this.preGenerateCubes(num_cubes);
+  }
+
+  /*
+  	@params	s 	string 	String to draw
+  	@params	start_x	Number 	Starting x cordinate of the string
+  	@params	start_y	Number 	Starting y cordinate of the string
+  */
+
+  IsoBlocks.prototype.generate = function(s, start_x, start_y) {
+    var ch, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
+    this.origin_x = start_x;
+    this.origin_y = start_y;
+    this.current_cube_index = this.cubes.length - 1;
+    _ref = this.cubes;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      cube = _ref[_i];
+      $(cube).addClass('unused');
+    }
+    current_row = 0;
+    current_col = 0;
+    _results = [];
+    for (index = 0, _len2 = s.length; index < _len2; index++) {
+      ch = s[index];
+      current_col += this.drawCharacter(ch, current_row, current_col);
+      _results.push(current_col += this.character_spacing);
+    }
+    return _results;
+  };
+
+  /* 
+  	It draws a character at given row and column
+  	Returns the width of the character in number of blocks
+  	@param 	ch 	String 	A character to draw
+  	@param 	row Number 	Current character's row
+  	@param 	col Number 	Current character's column
+  */
+
+  IsoBlocks.prototype.drawCharacter = function(ch, row, col) {
+    var arr, cube, current_ch, i, j, pos_x, pos_y, val, z, _len, _len2;
+    ch = ch.toLowerCase();
+    if (ch === ' ') {
+      return 1;
+    } else if (ch === '#') {
+      ch = 'fill';
+    } else if (ch === '!') {
+      ch = 'exclamation';
+    } else if (ch === '?') {
+      ch = 'question';
+    } else if (ch === '.') {
+      ch = 'fullstop';
+    } else if (ch === ',') {
+      ch = 'comma';
+    } else if (ch === '-') {
+      ch = 'dash';
+    } else if (ch === ';') {
+      ch = 'semicolon';
+    } else if (ch === ':') {
+      ch = 'colon';
+    }
+    current_ch = Characters[ch];
+    for (i = 0, _len = current_ch.length; i < _len; i++) {
+      arr = current_ch[i];
+      for (j = 0, _len2 = arr.length; j < _len2; j++) {
+        val = arr[j];
+        if (val) {
+          pos_x = (row + i + col + j) * Cube.width * 0.85 + this.origin_x;
+          pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.85 + this.origin_y;
+          z = parseInt(100 * pos_y - 40 * pos_x + 2000, 10);
+          /* 
+          					If its not the first time, we have already generated cubes. 
+          					So no need of dom manipulation again and again.
+          					Else if we do not have some cubes, we generate them. This happens for the first time only.
+          */
+          if (this.current_cube_index >= 0) {
+            cube = this.cubes[this.current_cube_index];
+            cube.style.left = pos_x + 'px';
+            cube.style.top = pos_y + 'px';
+            cube.style.zIndex = z;
+            $(cube).removeClass('unused');
+            this.current_cube_index--;
+          } else {
+            console.warn('Cubes got Over!');
+            return;
+          }
+        }
+      }
+    }
+    return current_ch.length;
+  };
+
+  /* 
+  	@param 	cube_count	Number 	Number of cubes to pre-generate
+  */
+
+  IsoBlocks.prototype.preGenerateCubes = function(cube_count) {
+    var current_cube, html_string, i;
+    html_string = '';
+    for (i = 1; 1 <= cube_count ? i < cube_count : i > cube_count; 1 <= cube_count ? i++ : i--) {
+      current_cube = this.cube_template;
+      current_cube = current_cube.replace('@left', 150 + Math.random() * (window.screen.width - 400));
+      current_cube = current_cube.replace('@top', 200 + Math.random() * (window.screen.height - 500));
+      current_cube = current_cube.replace('@color', 'iso_color_' + Colors.getRandomColor());
+      html_string += current_cube;
+    }
+    if (html_string) iso_container.innerHTML += html_string;
+    return this.cubes = document.getElementsByClassName('iso_block');
+  };
+
+  return IsoBlocks;
+
+})();
