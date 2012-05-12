@@ -9,17 +9,16 @@
 
 
 <body>
+
+<a href="https://github.com/chinchang/Bouncy_HTML5"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 <header>
-
-	<a href="https://github.com/chinchang/Bouncy_HTML5"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
 	<h1>ISOBLOCKS</h1>
 	<em>Created by <a href="https://twitter.com/#!/chinchang457" title="@chinchang457">Kushagra Gour</a>.</em>
 
 	<!-- <div><span class="button"></span><span>HAHAHAHAA</span></div> -->
 </header>
 
-<input type=text placeholder="Type n enter" id=iso_input />
+<input type=text placeholder="Type n enter" id="iso_input" />
 
 <div id="iso_container"></div>
 
@@ -27,9 +26,8 @@
 <script src="alphabets.js"></script>
 <script src="main.js"></script>
 <script>
-	var iso = new Isometric();
-	iso.generate('################');
-	iso.generate('welcome, buddy!');
+	var iso = new IsoBlocks();
+	iso.generate('isoblocks', 20, 590);
 
 </script>
 </body>
