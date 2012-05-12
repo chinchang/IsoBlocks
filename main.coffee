@@ -37,36 +37,51 @@ class Colors
 
 
 class IsoBlocks
+	# Starting x cordinate on the screen
 	origin_x: 0
+	# Starting y cordinate on the screen
 	origin_y: 0
-	offset_x: 0
-	offset_y: 0
-	character_spacing: 0
-	current_cube_index: 0
 
-	# Pre-generated array of cubes which are used throughout.
+	# Spacing between 2 characters in terms of number of blocks
+	character_spacing: 1
+
+	# Array of pre-generated cubes which are used throughout.
 	cubes: []
 
-	# A HTML string template for a block
+	# Current cube index in the @cubes array to be used for drawing
+	current_cube_index: 0
+
+	# An HTML string template for a block
 	cube_template: '<div class="iso_block @color unused" style="left:@leftpx; top:@toppx"></div>'
 
-	constructor: ->
-		@preCreateCubes 450
+	###
+	Constructor
+	@param	num_cubes	Number 	Number of cubes to pre-generate
+	###
+	constructor: (num_cubes = 450) ->
+		@preGenerateCubes num_cubes 
 
+	###
+	@params	s 	string 	String to draw
+	@params	start_x	Number 	Starting x cordinate of the string
+	@params	start_y	Number 	Starting y cordinate of the string
+	###
 	generate: (s, start_x, start_y) ->
-		#cos = Math.cos(-30 * Math.PI /180)
-		#sin = Math.sin(-30 * Math.PI /180)
+		@origin_x = start_x
+		@origin_y = start_y
+
+		# Initialize the @current_cube_index to start using the cubes from end for current string
 		@current_cube_index = @cubes.length - 1
 
-		# Hide all cubes and reset color
+		# Hide all cubes
 		for cube in @cubes
 			$(cube).addClass('unused')#.removeClass('iso_color_yellow iso_color_green')
 			#$(cube).css 'top', parseInt($(cube).css('top'), 10) - 400
-		@origin_x = start_x
-		@origin_y = start_y
+
 		current_row = 0
 		current_col = 0
 
+		# Loop throught the characters and keep drawing them
 		for ch, index in s
 			current_col += @drawCharacter ch, current_row, current_col
 
@@ -76,6 +91,9 @@ class IsoBlocks
 	### 
 	It draws a character at given row and column
 	Returns the width of the character in number of blocks
+	@param 	ch 	String 	A character to draw
+	@param 	row Number 	Current character's row
+	@param 	col Number 	Current character's column
 	###
 	drawCharacter: (ch, row, col) ->
 		# Lowercase the character
@@ -122,7 +140,10 @@ class IsoBlocks
 		# Return the character width
 		current_ch.length
 
-	preCreateCubes: (cube_count) ->
+	### 
+	@param 	cube_count	Number 	Number of cubes to pre-generate
+	###
+	preGenerateCubes: (cube_count) ->
 		html_string = ''
 		for i in [1...cube_count]
 			current_cube = @cube_template
