@@ -110,7 +110,7 @@ class IsoBlocks
 		else if ch is ';' then ch = 'semicolon'
 		else if ch is ':' then ch = 'colon'
 
-		current_ch = Alphabets[ch]
+		current_ch = Characters[ch]
 		for arr, i in current_ch
 			for val, j in arr
 				if val
@@ -148,8 +148,8 @@ class IsoBlocks
 		for i in [1...cube_count]
 			current_cube = @cube_template
 			
-			current_cube = current_cube.replace '@left', (20 + Math.random() * (window.screen.width-20))
-			current_cube = current_cube.replace '@top', (20 + Math.random() * (window.screen.height-20))
+			current_cube = current_cube.replace '@left', (150 + Math.random() * (window.screen.width-400))
+			current_cube = current_cube.replace '@top', (200 + Math.random() * (window.screen.height - 500))
 			current_cube = current_cube.replace '@color', 'iso_color_' + Colors.getRandomColor()
 			html_string += current_cube
 			#console.log current_cube

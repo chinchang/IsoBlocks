@@ -23,12 +23,11 @@
 <div id="iso_container"></div>
 
 <script src="jquery-1.7.1.min.js"></script>
-<script src="alphabets.js"></script>
-<script src="main.js"></script>
+<script src="characters.js"></script>
+<script src="isoblocks.js"></script>
 <script>
-	var iso = new IsoBlocks();
-	iso.generate('isoblocks', 20, 590);
-
+	var iso = new IsoBlocks(400);
+	iso.generate('iso-blocks', 20, 500);
 </script>
 </body>
 
