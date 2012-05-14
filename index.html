@@ -2,33 +2,45 @@
 
 <head>
 
-<link href="common.css" rel="stylesheet" type="text/css"/>
-<link href="style.css" rel="stylesheet" type="text/css"/>
+<link href="css/common.css" rel="stylesheet" type="text/css"/>
+<link href="css/isoblocks.css" rel="stylesheet" type="text/css"/>
 
 </head>
 
 
 <body>
 
-<a href="https://github.com/chinchang/Bouncy_HTML5"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 <header>
 	<h1>ISOBLOCKS</h1>
 	<em>Created by <a href="https://twitter.com/#!/chinchang457" title="@chinchang457">Kushagra Gour</a>.</em>
 
-	<!-- <div><span class="button"></span><span>HAHAHAHAA</span></div> -->
+	<div id="socialz">
+		
+		<a href="https://twitter.com/share" class="twitter-share-button" data-via="chinchang457">Tweet</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+		<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fkushagragour.in%2Flab%2Fisoblocks%2F&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+	</div>
+
 </header>
 
-<input type=text placeholder="Type n enter" id="iso_input" />
+<input type=text placeholder="Type n Enter" id="iso_input" />
 
 <div id="iso_container"></div>
 
-<script src="jquery-1.7.1.min.js"></script>
-<script src="characters.js"></script>
-<script src="isoblocks.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="js/characters.js"></script>
+<script src="js/isoblocks.js"></script>
 <script>
 	var iso = new IsoBlocks(400);
-	iso.generate('iso-blocks', 20, 500);
+	iso.generate('.iso-blocks.', 320, 500);
 </script>
+
+
+
+
+<a href="https://github.com/chinchang/Bouncy_HTML5"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+
 </body>
 
 </html>

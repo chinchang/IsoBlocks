@@ -19,7 +19,7 @@ $(->
 
 onKeyPress = (e) ->
 	if e.key is 13 or e.keyCode is 13
-		if iso then iso.generate $(e.target).val(), 20, 610
+		if iso then iso.generate $(e.target).val(), 320, 500
 
 class Cube
 	constructor: ->
@@ -76,7 +76,6 @@ class IsoBlocks
 		# Hide all cubes
 		for cube in @cubes
 			$(cube).addClass('unused')#.removeClass('iso_color_yellow iso_color_green')
-			#$(cube).css 'top', parseInt($(cube).css('top'), 10) - 400
 
 		current_row = 0
 		current_col = 0
@@ -121,8 +120,8 @@ class IsoBlocks
 					# Calculate z-index according to the cube's position
 					z = parseInt 100 * pos_y - 40 * pos_x + 2000, 10
 
-					### 
-					If its not the first time, we have already generated cubes. 
+					###
+					If its not the first time, we have already generated cubes.
 					So no need of dom manipulation again and again.
 					Else if we do not have some cubes, we generate them. This happens for the first time only.
 					###
@@ -138,7 +137,7 @@ class IsoBlocks
 						console.warn 'Cubes got Over!'
 						return
 		# Return the character width
-		current_ch.length
+		current_ch[0].length
 
 	### 
 	@param 	cube_count	Number 	Number of cubes to pre-generate
@@ -150,7 +149,7 @@ class IsoBlocks
 			
 			current_cube = current_cube.replace '@left', (150 + Math.random() * (window.screen.width-400))
 			current_cube = current_cube.replace '@top', (200 + Math.random() * (window.screen.height - 500))
-			current_cube = current_cube.replace '@color', 'iso_color_' + Colors.getRandomColor()
+			#current_cube = current_cube.replace '@color', 'iso_color_' + Colors.getRandomColor()
 			html_string += current_cube
 			#console.log current_cube
 

@@ -20,7 +20,7 @@ $(function() {
 
 onKeyPress = function(e) {
   if (e.key === 13 || e.keyCode === 13) {
-    if (iso) return iso.generate($(e.target).val(), 20, 610);
+    if (iso) return iso.generate($(e.target).val(), 320, 500);
   }
 };
 
@@ -140,8 +140,8 @@ IsoBlocks = (function() {
           pos_x = (row + i + col + j) * Cube.width * 0.85 + this.origin_x;
           pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.85 + this.origin_y;
           z = parseInt(100 * pos_y - 40 * pos_x + 2000, 10);
-          /* 
-          					If its not the first time, we have already generated cubes. 
+          /*
+          					If its not the first time, we have already generated cubes.
           					So no need of dom manipulation again and again.
           					Else if we do not have some cubes, we generate them. This happens for the first time only.
           */
@@ -159,7 +159,7 @@ IsoBlocks = (function() {
         }
       }
     }
-    return current_ch.length;
+    return current_ch[0].length;
   };
 
   /* 
@@ -173,7 +173,6 @@ IsoBlocks = (function() {
       current_cube = this.cube_template;
       current_cube = current_cube.replace('@left', 150 + Math.random() * (window.screen.width - 400));
       current_cube = current_cube.replace('@top', 200 + Math.random() * (window.screen.height - 500));
-      current_cube = current_cube.replace('@color', 'iso_color_' + Colors.getRandomColor());
       html_string += current_cube;
     }
     if (html_string) iso_container.innerHTML += html_string;
