@@ -20,6 +20,7 @@ header{
 	overflow: hidden;
 	white-space: nowrap;
 	-webkit-transition-duration: 300ms;
+	-webkit-transition-duration: 300ms;
 }
 
 header a{

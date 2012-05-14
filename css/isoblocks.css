@@ -11,8 +11,8 @@ body{
 	height: 15px;
 	width: 15px;
 	background-color: #CCC;
-	-webkit-transform: scaleY(0.5)rotate(-45deg); /*skew(15deg, 15deg);*/
-	-moz-transform: scaleY(0.5)rotate(-45deg); /*skew(15deg, 15deg);*/
+	-webkit-transform: scaleY(0.5)rotate(-45deg);
+	-moz-transform: scaleY(0.5)rotate(-45deg);
 	
 	-webkit-transition-property: top, left, opacity;
 	-moz-transition-property: top, left, opacity;
@@ -41,7 +41,6 @@ body{
 	background-color: #AAA;
 	-webkit-transform: skew(-15deg,-15deg)rotate(45deg)skewY(30deg)scale(1,1.3);
 	-moz-transform: skew(-15deg,-15deg)rotate(45deg)skewY(30deg)scale(1,1.3);
-	/*rotate(45deg)scaleY(2)skewY(26.5deg)scale(0.7,0.8)*/
 }
 
 .iso_block:after{
@@ -50,7 +49,6 @@ body{
 	background-color: #888;
 	-webkit-transform: skew(-15deg,-15deg)rotate(45deg)skewY(-30deg)scale(1,1.3);
 	-moz-transform: skew(-15deg,-15deg)rotate(45deg)skewY(-30deg)scale(1,1.3);
-	/*rotate(45deg)scaleY(2)skewY(-26.5deg)scale(0.7,0.8)*/
 }
 
 /* Color schemes */
