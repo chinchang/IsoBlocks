@@ -3,7 +3,8 @@
 }
 
 body{
-	background: #EEE -webkit-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.6) 0,rgba(255, 255, 255, 0) 82%);
+	background: #EEE -webkit-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.65) 0,rgba(255, 255, 255, 0) 82%);
+	font-family: Arial;
 }
 
 .iso_block{
@@ -13,15 +14,19 @@ body{
 	background-color: #CCC;
 	-webkit-transform: scaleY(0.5)rotate(-45deg);
 	-moz-transform: scaleY(0.5)rotate(-45deg);
+	-o-transform: scaleY(0.5)rotate(-45deg);
 	
-	-webkit-transition-property: top, left, opacity;
-	-moz-transition-property: top, left, opacity;
+	-webkit-transition-property: top, left, opacity, background-color;
+	-moz-transition-property: top, left, opacity, background-color;
+	-o-transition-property: top, left, opacity, background-color;
 
 	-webkit-transition-timing-function: ease;
 	-moz-transition-timing-function: ease;
+	-o-transition-timing-function: ease;
 
 	-webkit-transition-duration: 500ms;
 	-moz-transition-duration: 500ms;
+	-o-transition-duration: 500ms;
 }
 
 .iso_block.move{
@@ -41,6 +46,7 @@ body{
 	background-color: #AAA;
 	-webkit-transform: skew(-15deg,-15deg)rotate(45deg)skewY(30deg)scale(1,1.3);
 	-moz-transform: skew(-15deg,-15deg)rotate(45deg)skewY(30deg)scale(1,1.3);
+	-o-transform: skew(-15deg,-15deg)rotate(45deg)skewY(30deg)scale(1,1.3);
 }
 
 .iso_block:after{
@@ -49,6 +55,7 @@ body{
 	background-color: #888;
 	-webkit-transform: skew(-15deg,-15deg)rotate(45deg)skewY(-30deg)scale(1,1.3);
 	-moz-transform: skew(-15deg,-15deg)rotate(45deg)skewY(-30deg)scale(1,1.3);
+	-o-transform: skew(-15deg,-15deg)rotate(45deg)skewY(-30deg)scale(1,1.3);
 }
 
 /* Color schemes */
@@ -59,6 +66,18 @@ body{
 .iso_block.iso_color_green { background-color: #6ec276; }
 .iso_block.iso_color_green:before { background-color: #4bb255; }
 .iso_block.iso_color_green:after { background-color: #2d6a33; }
+
+.iso_block.iso_color_pink { background-color: #f1708c; }
+.iso_block.iso_color_pink:before { background-color: #ee5173; }
+.iso_block.iso_color_pink:after { background-color: #e9234e; }
+
+.iso_block.iso_color_red { background-color: #f33; }
+.iso_block.iso_color_red:before { background-color: #f00; }
+.iso_block.iso_color_red:after { background-color: #b00; }
+
+.iso_block.iso_color_blue { background-color: #00a7e0; }
+.iso_block.iso_color_blue:before { background-color: #008dbe; }
+.iso_block.iso_color_blue:after { background-color: #00749C; }
 
 
 .iso_block.unused{
