@@ -10,9 +10,15 @@ IsoBlocks is a library to create eye candy isometric texts.
 
 Usage:
 var iso = new IsoBlocks();
-iso.generate('Any Text here', start_x, start_y);
+iso.generate('Any Text here');
+
+Position it
+iso.generate('Any Text', {x: 320, y: 600})
+
+Give it a color
+iso.generate('Any Text', {colors: ['green']})
 */
-var Colors, Cube, IsoBlocks, onKeyPress;
+var Cube, IsoBlocks, onKeyPress;
 
 $(function() {
   return $('#iso_input').bind('keydown', onKeyPress);
@@ -21,12 +27,20 @@ $(function() {
 onKeyPress = function(e) {
   if (e.key === 13 || e.keyCode === 13) {
     if (iso) {
-      return iso.generate($(e.target).val(), 320, 500, $("input[name=color]:checked").map(function() {
-        return this.value;
-      }).get());
+      return iso.generate($(e.target).val(), {
+        x: 320,
+        y: 500,
+        colors: $("input[name=color]:checked").map(function() {
+          return this.value;
+        }).get()
+      });
     }
   }
 };
+
+/*
+	Cube class
+*/
 
 Cube = (function() {
 
@@ -40,72 +54,58 @@ Cube = (function() {
 
 })();
 
-Colors = (function() {
-
-  function Colors() {}
-
-  Colors.colors = ['yellow', 'gren'];
-
-  Colors.getRandomColor = function() {
-    return Colors.colors[Math.floor(Math.random() * Colors.colors.length)];
-  };
-
-  return Colors;
-
-})();
+/*
+	IsoBlocks class
+*/
 
 IsoBlocks = (function() {
-
-  IsoBlocks.prototype.origin_x = 0;
-
-  IsoBlocks.prototype.origin_y = 0;
-
-  IsoBlocks.prototype.colors = '';
-
-  IsoBlocks.prototype.character_spacing = 1;
 
   IsoBlocks.prototype.cubes = [];
 
   IsoBlocks.prototype.current_cube_index = 0;
 
-  IsoBlocks.prototype.mono = true;
-
   IsoBlocks.prototype.cube_template = '<div class="iso_block unused" style="left:@leftpx; top:@toppx"></div>';
+
+  IsoBlocks.prototype.config = {};
 
   /*
   	Constructor
   	@param	num_cubes	Number 	Number of cubes to pre-generate. Default is 450.
-  	@param	mono 		Boolean	Should block be single colored. Default is true.
   */
 
-  function IsoBlocks(num_cubes, mono) {
+  function IsoBlocks(num_cubes) {
     if (num_cubes == null) num_cubes = 450;
-    this.mono = mono != null ? mono : true;
+    this.config = {
+      colors: [],
+      x: window.screen.width / 2,
+      y: window.screen.height / 2,
+      character_spacing: 1
+    };
     this.preGenerateCubes(num_cubes);
   }
 
   /*
-  	@params	s 	string 	String to draw
-  	@params	start_x	Number 	Starting x cordinate of the string
-  	@params	start_y	Number 	Starting y cordinate of the string
+  	@params	s 		string 	String to draw
+  	@param	config 	Object	Configuration object.
   */
 
-  IsoBlocks.prototype.generate = function(s, start_x, start_y, colors) {
-    var ch, color, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
-    this.origin_x = start_x;
-    this.origin_y = start_y;
-    this.colors = '';
-    if (colors != null) {
-      this.colors = (function() {
-        var _i, _len, _results;
+  IsoBlocks.prototype.generate = function(s, config) {
+    var ch, color, colors, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
+    if (config) $.extend(this.config, config);
+    colors = [];
+    if (this.config.colors != null) {
+      colors = (function() {
+        var _i, _len, _ref, _results;
+        _ref = this.config.colors;
         _results = [];
-        for (_i = 0, _len = colors.length; _i < _len; _i++) {
-          color = colors[_i];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          color = _ref[_i];
           _results.push(color.toLowerCase().replace(/^/, ' iso_color_'));
         }
         return _results;
-      })();
+      }).call(this);
     }
+    this.config.colors = colors;
     this.current_cube_index = this.cubes.length - 1;
     _ref = this.cubes;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -118,7 +118,7 @@ IsoBlocks = (function() {
     for (index = 0, _len2 = s.length; index < _len2; index++) {
       ch = s[index];
       current_col += this.drawCharacter(ch, current_row, current_col);
-      _results.push(current_col += this.character_spacing);
+      _results.push(current_col += this.config.character_spacing);
     }
     return _results;
   };
@@ -159,8 +159,8 @@ IsoBlocks = (function() {
       for (j = 0, _len2 = arr.length; j < _len2; j++) {
         val = arr[j];
         if (val) {
-          pos_x = (row + i + col + j) * Cube.width * 0.85 + this.origin_x;
-          pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.85 + this.origin_y;
+          pos_x = (row + i + col + j) * Cube.width * 0.85 + this.config.x;
+          pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.85 + this.config.y;
           z = parseInt(100 * pos_y - 40 * pos_x + 2000, 10);
           /*
           					If its not the first time, we have already generated cubes.
@@ -173,11 +173,10 @@ IsoBlocks = (function() {
             cube.style.top = pos_y + 'px';
             class_string = $(cube).attr('class');
             class_string = class_string.replace(/iso_color_\w+/g, '');
-            if (this.colors.length) {
-              new_color = this.colors[Math.floor(Math.random() * this.colors.length)];
+            if (this.config.colors.length) {
+              new_color = this.config.colors[Math.floor(Math.random() * this.config.colors.length)];
               class_string = class_string.concat(" " + new_color);
             }
-            console.log(class_string);
             $(cube).removeClass().addClass(class_string);
             cube.style.zIndex = z;
             $(cube).removeClass('unused');

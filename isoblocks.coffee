@@ -10,7 +10,13 @@ IsoBlocks is a library to create eye candy isometric texts.
 
 Usage:
 var iso = new IsoBlocks();
-iso.generate('Any Text here', start_x, start_y);
+iso.generate('Any Text here');
+
+Position it
+iso.generate('Any Text', {x: 320, y: 600})
+
+Give it a color
+iso.generate('Any Text', {colors: ['green']})
 ###
 
 $(->
@@ -19,34 +25,22 @@ $(->
 
 onKeyPress = (e) ->
 	if e.key is 13 or e.keyCode is 13
-		if iso then iso.generate $(e.target).val(), 320, 500, $("input[name=color]:checked").map( -> return this.value; ).get();
+		if iso then iso.generate $(e.target).val(), {x: 320, y: 500, colors: $("input[name=color]:checked").map( -> return this.value; ).get()}
 
+###
+	Cube class
+###
 class Cube
 	constructor: ->
 
 	@width: 15
 	@height: 15
 
-class Colors
-	constructor: ->
 
-	@colors: ['yellow', 'gren']
-
-	@getRandomColor: ->
-		Colors.colors[Math.floor Math.random() * Colors.colors.length]
-
-
+###
+	IsoBlocks class
+###
 class IsoBlocks
-	# Starting x cordinate on the screen
-	origin_x: 0
-	# Starting y cordinate on the screen
-	origin_y: 0
-
-	# Colors for the blocks as CSS class string
-	colors: ''
-
-	# Spacing between 2 characters in terms of number of blocks
-	character_spacing: 1
 
 	# Array of pre-generated cubes which are used throughout.
 	cubes: []
@@ -54,31 +48,42 @@ class IsoBlocks
 	# Current cube index in the @cubes array to be used for drawing
 	current_cube_index: 0
 
-	# Should blocks be single colored or not.
-	mono: true
-
 	# An HTML string template for a block
 	cube_template: '<div class="iso_block unused" style="left:@leftpx; top:@toppx"></div>'
+
+	# Configuration Object
+	config: {}
 
 	###
 	Constructor
 	@param	num_cubes	Number 	Number of cubes to pre-generate. Default is 450.
-	@param	mono 		Boolean	Should block be single colored. Default is true.
 	###
-	constructor: (num_cubes = 450, @mono = true) ->
+	constructor: (num_cubes = 450) ->
+		@config =
+			# Colors to use for the text blocks
+			colors: []
+
+			# Starting x cordinate on the screen
+			x: window.screen.width / 2
+
+			# Starting y cordinate on the screen
+			y: window.screen.height / 2
+
+			# Spacing between 2 characters in terms of number of blocks. Default is 1.
+			character_spacing: 1
+
 		@preGenerateCubes num_cubes 
 
 	###
-	@params	s 	string 	String to draw
-	@params	start_x	Number 	Starting x cordinate of the string
-	@params	start_y	Number 	Starting y cordinate of the string
+	@params	s 		string 	String to draw
+	@param	config 	Object	Configuration object.
 	###
-	generate: (s, start_x, start_y, colors) ->
-		@origin_x = start_x
-		@origin_y = start_y
-		@colors = ''
-		# Make a class string from the colors array and cache it
-		@colors = (color.toLowerCase().replace(/^/,' iso_color_') for color in colors) if colors?
+	generate: (s, config) ->
+		$.extend @config, config if config
+		colors = []
+		# Append iso_color prefix to colors
+		colors = (color.toLowerCase().replace(/^/,' iso_color_') for color in @config.colors) if @config.colors?
+		@config.colors = colors
 
 		# Initialize the @current_cube_index to start using the cubes from end for current string
 		@current_cube_index = @cubes.length - 1
@@ -95,7 +100,7 @@ class IsoBlocks
 			current_col += @drawCharacter ch, current_row, current_col
 
 			# Give some space between 2 characters
-			current_col += @character_spacing
+			current_col += @config.character_spacing
 	
 	### 
 	It draws a character at given row and column
@@ -124,8 +129,8 @@ class IsoBlocks
 			for val, j in arr
 				if val
 					# Calulate isometric position of the cube
-					pos_x = (row+i+col+j) * Cube.width * 0.85 + @origin_x
-					pos_y = (row+i-(col+j)) * Cube.height / 2 * 0.85 + @origin_y
+					pos_x = (row+i+col+j) * Cube.width * 0.85 + @config.x
+					pos_y = (row+i-(col+j)) * Cube.height / 2 * 0.85 + @config.y
 					
 					# Calculate z-index according to the cube's position
 					z = parseInt 100 * pos_y - 40 * pos_x + 2000, 10
@@ -142,10 +147,9 @@ class IsoBlocks
 						# Remove previous color class, pick a new random color class and add it
 						class_string = $(cube).attr 'class'
 						class_string = class_string.replace(/iso_color_\w+/g, '')
-						if @colors.length
-							new_color = @colors[Math.floor Math.random() * @colors.length]
+						if @config.colors.length
+							new_color = @config.colors[Math.floor Math.random() * @config.colors.length]
 							class_string = class_string.concat(" #{new_color}")
-						console.log class_string
 						$(cube).removeClass().addClass class_string
 						cube.style.zIndex = z
 						$(cube).removeClass 'unused'
@@ -166,7 +170,6 @@ class IsoBlocks
 			
 			current_cube = current_cube.replace '@left', (150 + Math.random() * (window.screen.width-400))
 			current_cube = current_cube.replace '@top', (200 + Math.random() * (window.screen.height - 500))
-			#current_cube = current_cube.replace '@color', 'iso_color_' + Colors.getRandomColor() unless @mono
 			html_string += current_cube
 
 		# Insert the cubes into the DOM. Uses innerHTML for faster DOM Insertion.

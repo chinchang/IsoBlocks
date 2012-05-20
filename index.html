@@ -39,8 +39,8 @@
 <script src="js/characters.js"></script>
 <script src="js/isoblocks.js"></script>
 <script>
-	var iso = new IsoBlocks(400, false);
-	iso.generate('.iso-blocks.', 320, 500);
+	var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
+	iso.generate('.iso-blocks.', {x: 320, y: 500});
 </script>
 
 
