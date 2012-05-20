@@ -41,7 +41,7 @@ iso.generate('Your Text Here', {x: 320, y: 600, colors: ['green', 'yellow']}); /
 Try it out
 ------------
 Demo: [http://kushagragour.in/lab/isoblocks/](http://kushagragour.in/lab/isoblocks/)
-
+[Works best in Google Chrome]
 
 
 License
@@ -49,6 +49,5 @@ License
 
 Licensed under The MIT License
 
-[Works best in Google Chrome]
 
 
