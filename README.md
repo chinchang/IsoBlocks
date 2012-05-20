@@ -30,12 +30,12 @@ iso.generate('Your Text Here', {x: 320, y: 600});
 
 Colorize it (Presently supports- green, red, pink, blue, yellow only):
 ```
-iso.generate('Your Text Here', {x: 320, y: 600, colors: ['green']}); // Pass an array of colors
+iso.generate('Your Text Here', {x: 320, y: 600, colors: 'green'}); // Pass a color using 'colors' option
 ```
 
 Use multiple colors:
 ```
-iso.generate('Your Text Here', {x: 320, y: 600, colors: ['green', 'yellow']}); // Pass an array of colors
+iso.generate('Your Text Here', {x: 320, y: 600, colors: ['green', 'yellow']}); // Pass an array of colors in 'colors'
 ```
 
 Try it out
