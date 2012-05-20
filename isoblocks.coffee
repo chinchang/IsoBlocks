@@ -140,7 +140,6 @@ class IsoBlocks
 			for val, j in arr
 				if val
 					# Calulate isometric position of the cube
-					console.log @config.y
 					pos_x = (row+i+col+j) * Cube.width * 0.85 + @config.x
 					pos_y = (row+i-(col+j)) * Cube.height / 2 * 0.85 + @config.y
 					

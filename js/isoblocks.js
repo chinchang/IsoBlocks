@@ -167,7 +167,6 @@ IsoBlocks = (function() {
       for (j = 0, _len2 = arr.length; j < _len2; j++) {
         val = arr[j];
         if (val) {
-          console.log(this.config.y);
           pos_x = (row + i + col + j) * Cube.width * 0.85 + this.config.x;
           pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.85 + this.config.y;
           z = parseInt(100 * pos_y - 40 * pos_x + 2000, 10);
