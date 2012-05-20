@@ -14,6 +14,12 @@ To use the library, you need to include the following files:
 * js/isoblocks.js
 * css/isoblocks.css
 
+Put the following in your HTML:
+```
+<div id="iso_container"></div>
+```
+
+
 Then in your code create an instance of **IsoBlocks** class and call the **generate** method to create the text you want:
 
 **NOTE:** IsoBlocks requires jQuery to be included before it.
