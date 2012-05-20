@@ -19,7 +19,7 @@ $(->
 
 onKeyPress = (e) ->
 	if e.key is 13 or e.keyCode is 13
-		if iso then iso.generate $(e.target).val(), 320, 500
+		if iso then iso.generate $(e.target).val(), 320, 500, $("input[name=color]:checked").map( -> return this.value; ).get();
 
 class Cube
 	constructor: ->
@@ -30,7 +30,7 @@ class Cube
 class Colors
 	constructor: ->
 
-	@colors: ['yellow', 'green', '']
+	@colors: ['yellow', 'gren']
 
 	@getRandomColor: ->
 		Colors.colors[Math.floor Math.random() * Colors.colors.length]
@@ -42,6 +42,9 @@ class IsoBlocks
 	# Starting y cordinate on the screen
 	origin_y: 0
 
+	# Colors for the blocks as CSS class string
+	colors: ''
+
 	# Spacing between 2 characters in terms of number of blocks
 	character_spacing: 1
 
@@ -51,14 +54,18 @@ class IsoBlocks
 	# Current cube index in the @cubes array to be used for drawing
 	current_cube_index: 0
 
+	# Should blocks be single colored or not.
+	mono: true
+
 	# An HTML string template for a block
-	cube_template: '<div class="iso_block @color unused" style="left:@leftpx; top:@toppx"></div>'
+	cube_template: '<div class="iso_block unused" style="left:@leftpx; top:@toppx"></div>'
 
 	###
 	Constructor
-	@param	num_cubes	Number 	Number of cubes to pre-generate
+	@param	num_cubes	Number 	Number of cubes to pre-generate. Default is 450.
+	@param	mono 		Boolean	Should block be single colored. Default is true.
 	###
-	constructor: (num_cubes = 450) ->
+	constructor: (num_cubes = 450, @mono = true) ->
 		@preGenerateCubes num_cubes 
 
 	###
@@ -66,16 +73,19 @@ class IsoBlocks
 	@params	start_x	Number 	Starting x cordinate of the string
 	@params	start_y	Number 	Starting y cordinate of the string
 	###
-	generate: (s, start_x, start_y) ->
+	generate: (s, start_x, start_y, colors) ->
 		@origin_x = start_x
 		@origin_y = start_y
+		@colors = ''
+		# Make a class string from the colors array and cache it
+		@colors = (color.toLowerCase().replace(/^/,' iso_color_') for color in colors) if colors?
 
 		# Initialize the @current_cube_index to start using the cubes from end for current string
 		@current_cube_index = @cubes.length - 1
 
 		# Hide all cubes
 		for cube in @cubes
-			$(cube).addClass('unused')#.removeClass('iso_color_yellow iso_color_green')
+			$(cube).addClass('unused')
 
 		current_row = 0
 		current_col = 0
@@ -129,9 +139,16 @@ class IsoBlocks
 						cube = @cubes[@current_cube_index]
 						cube.style.left = pos_x + 'px'
 						cube.style.top = pos_y + 'px'
+						# Remove previous color class, pick a new random color class and add it
+						class_string = $(cube).attr 'class'
+						class_string = class_string.replace(/iso_color_\w+/g, '')
+						if @colors.length
+							new_color = @colors[Math.floor Math.random() * @colors.length]
+							class_string = class_string.concat(" #{new_color}")
+						console.log class_string
+						$(cube).removeClass().addClass class_string
 						cube.style.zIndex = z
 						$(cube).removeClass 'unused'
-						#$(cube).addClass 'iso_color_' + color
 						@current_cube_index--
 					else
 						console.warn 'Cubes got Over!'
@@ -149,13 +166,10 @@ class IsoBlocks
 			
 			current_cube = current_cube.replace '@left', (150 + Math.random() * (window.screen.width-400))
 			current_cube = current_cube.replace '@top', (200 + Math.random() * (window.screen.height - 500))
-			#current_cube = current_cube.replace '@color', 'iso_color_' + Colors.getRandomColor()
+			#current_cube = current_cube.replace '@color', 'iso_color_' + Colors.getRandomColor() unless @mono
 			html_string += current_cube
-			#console.log current_cube
 
 		# Insert the cubes into the DOM. Uses innerHTML for faster DOM Insertion.
-		
-		#console.log html_string
 		if html_string then iso_container.innerHTML += html_string
 
 		# Get the cube references
