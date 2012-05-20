@@ -49,4 +49,6 @@ License
 
 Licensed under The MIT License
 
+[Works best in Google Chrome]
+
 
