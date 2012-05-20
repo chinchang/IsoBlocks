@@ -20,3 +20,6 @@ Then in your code create an instance of **IsoBlocks** class and call the **gener
 var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
 iso.generate('Your Text Here', 320, 500);
 ```
+
+Check out the demo: [http://kushagragour.in/lab/isoblocks/](http://kushagragour.in/lab/isoblocks/)
+
