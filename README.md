@@ -20,7 +20,7 @@ Then in your code create an instance of **IsoBlocks** class and call the **gener
 
 ```
 var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
-iso.generate('Your Text Here'); // By Default starts from the center of the screen
+iso.generate('Your Text Here'); // By Default starts from lower left of the screen
 ```
 
 Position it:
