@@ -95,6 +95,7 @@ IsoBlocks = (function() {
 
   IsoBlocks.prototype.generate = function(s, config) {
     var ch, color, colors, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
+    if (config == null) config = {};
     if (config) $.extend(this.config, config);
     colors = [];
     if (config.colors) {
@@ -209,7 +210,7 @@ IsoBlocks = (function() {
       current_cube = current_cube.replace('@top', 200 + Math.random() * (window.screen.height - 500));
       html_string += current_cube;
     }
-    if (html_string) iso_container.innerHTML += html_string;
+    if (html_string) $('#iso_container').get(0).innerHTML += html_string;
     return this.cubes = document.getElementsByClassName('iso_block');
   };
 

@@ -83,7 +83,7 @@ class IsoBlocks
 	@params	s 		string 	String to draw
 	@param	config 	Object	Configuration object.
 	###
-	generate: (s, config) ->
+	generate: (s, config = {}) ->
 		$.extend @config, config if config
 		colors = []
 		# Append iso_color prefix to colors
@@ -181,7 +181,7 @@ class IsoBlocks
 			html_string += current_cube
 
 		# Insert the cubes into the DOM. Uses innerHTML for faster DOM Insertion.
-		if html_string then iso_container.innerHTML += html_string
+		if html_string then $('#iso_container').get(0).innerHTML += html_string
 
 		# Get the cube references
 		@cubes = document.getElementsByClassName('iso_block')
