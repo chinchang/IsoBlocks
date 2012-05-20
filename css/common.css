@@ -8,9 +8,7 @@ header{
 	padding: 0 18px;
 	background: #000;
 	border-radius: 0 34px 34px 0;
-	/*box-shadow: 0px 1px 10px rgba(0,0,0,0.5);*/
 	color: #EEE;
-	/*text-shadow: 0 1px white;*/
 	position: absolute;
 	left: 0;
 	top: 10px;
@@ -20,12 +18,20 @@ header{
 	overflow: hidden;
 	white-space: nowrap;
 	-webkit-transition-duration: 300ms;
-	-webkit-transition-duration: 300ms;
+	-moz-transition-duration: 300ms;
+	-o-transition-duration: 300ms;
 }
 
 header a{
-	color: #CCC;
+	color: #FFF;
 	text-decoration: none;
+	-webkit-transition: 300ms color;
+	-moz-transition: 300ms color;
+	-o-transition: 300ms color;
+}
+
+header a:HOVER{
+	color: #008dbe;
 }
 
 header h1{
@@ -41,13 +47,13 @@ header h1{
 
 header em{
 	vertical-align: middle;
+	color: #AAA;
 }
 
 header #socialz{
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 10px;
-	/*margin-right: -230px;*/
 	width: 210px;
 }
 
