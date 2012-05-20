@@ -4,7 +4,7 @@ IsoBlocks
 What is it?
 -----------
 
-IsoBlocks is an experimental library to create eye-candy isometric texts. It is written in ++coffeescript++, uses ++CSS3 transforms++ for creating the cubes and ++CSS3 transitions++ for the animation.
+IsoBlocks is an experimental library to create eye-candy isometric texts. It is written in **coffeescript**, uses **CSS3 transforms** for creating the cubes and **CSS3 transitions** for the animation.
 
 Usage
 -----
@@ -14,7 +14,7 @@ To use the library, you need to include the following files:
 * js/characters.js
 * css/isoblocks.css
 
-Then in your code create an instance of ++IsoBlocks++ class and call the ++generate++ method to create the text you want:
+Then in your code create an instance of **IsoBlocks** class and call the **generate** method to create the text you want:
 
 ```
 var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
