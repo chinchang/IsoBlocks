@@ -11,7 +11,7 @@ IsoBlocks is a library to create eye candy isometric texts.
 Usage:
 
 var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
-iso.generate('Your Text Here'); // By Default starts from the center of the screen
+iso.generate('Your Text Here'); // By Default starts from the lower left of the screen
 
 Position it:
 iso.generate('Your Text Here', {x: 320, y: 600});
@@ -56,7 +56,10 @@ class IsoBlocks
 	# An HTML string template for a block
 	cube_template: '<div class="iso_block unused" style="left:@leftpx; top:@toppx"></div>'
 
-	# Configuration Object
+	# Default Configuration Object
+	default_config: {}
+
+	# Current Configuration Object
 	config: {}
 
 	###
@@ -64,15 +67,15 @@ class IsoBlocks
 	@param	num_cubes	Number 	Number of cubes to pre-generate. Default is 450.
 	###
 	constructor: (num_cubes = 450) ->
-		@config =
+		@default_config =
 			# Colors to use for the text blocks
 			colors: []
 
 			# Starting x cordinate on the screen
-			x: window.screen.width / 2
+			x: 30
 
 			# Starting y cordinate on the screen
-			y: window.screen.height / 2
+			y: window.innerHeight - 100
 
 			# Spacing between 2 characters in terms of number of blocks. Default is 1.
 			character_spacing: 1
@@ -84,7 +87,7 @@ class IsoBlocks
 	@param	config 	Object	Configuration object.
 	###
 	generate: (s, config = {}) ->
-		$.extend @config, config if config
+		$.extend @config, @default_config, config
 		colors = []
 		# Append iso_color prefix to colors
 		if config.colors
@@ -137,6 +140,7 @@ class IsoBlocks
 			for val, j in arr
 				if val
 					# Calulate isometric position of the cube
+					console.log @config.y
 					pos_x = (row+i+col+j) * Cube.width * 0.85 + @config.x
 					pos_y = (row+i-(col+j)) * Cube.height / 2 * 0.85 + @config.y
 					

@@ -11,7 +11,7 @@ IsoBlocks is a library to create eye candy isometric texts.
 Usage:
 
 var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
-iso.generate('Your Text Here'); // By Default starts from the center of the screen
+iso.generate('Your Text Here'); // By Default starts from the lower left of the screen
 
 Position it:
 iso.generate('Your Text Here', {x: 320, y: 600});
@@ -70,6 +70,8 @@ IsoBlocks = (function() {
 
   IsoBlocks.prototype.cube_template = '<div class="iso_block unused" style="left:@leftpx; top:@toppx"></div>';
 
+  IsoBlocks.prototype.default_config = {};
+
   IsoBlocks.prototype.config = {};
 
   /*
@@ -79,10 +81,10 @@ IsoBlocks = (function() {
 
   function IsoBlocks(num_cubes) {
     if (num_cubes == null) num_cubes = 450;
-    this.config = {
+    this.default_config = {
       colors: [],
-      x: window.screen.width / 2,
-      y: window.screen.height / 2,
+      x: 30,
+      y: window.innerHeight - 100,
       character_spacing: 1
     };
     this.preGenerateCubes(num_cubes);
@@ -96,7 +98,7 @@ IsoBlocks = (function() {
   IsoBlocks.prototype.generate = function(s, config) {
     var ch, color, colors, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
     if (config == null) config = {};
-    if (config) $.extend(this.config, config);
+    $.extend(this.config, this.default_config, config);
     colors = [];
     if (config.colors) {
       if (typeof config.colors === 'string') config.colors = [config.colors];
@@ -165,6 +167,7 @@ IsoBlocks = (function() {
       for (j = 0, _len2 = arr.length; j < _len2; j++) {
         val = arr[j];
         if (val) {
+          console.log(this.config.y);
           pos_x = (row + i + col + j) * Cube.width * 0.85 + this.config.x;
           pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.85 + this.config.y;
           z = parseInt(100 * pos_y - 40 * pos_x + 2000, 10);
