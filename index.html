@@ -22,7 +22,16 @@
 
 </header>
 
+<p>
 <input type=text placeholder="Type n Enter" id="iso_input" />
+</p>
+<p>
+<input type=checkbox name=color value=green />Green
+<input type=checkbox name=color value=yellow />Yellow
+<input type=checkbox name=color value=pink />Pink
+<input type=checkbox name=color value=red />Red
+<input type=checkbox name=color value=blue />Blue
+</p>
 
 <div id="iso_container"></div>
 
@@ -30,7 +39,7 @@
 <script src="js/characters.js"></script>
 <script src="js/isoblocks.js"></script>
 <script>
-	var iso = new IsoBlocks(400);
+	var iso = new IsoBlocks(400, false);
 	iso.generate('.iso-blocks.', 320, 500);
 </script>
 
