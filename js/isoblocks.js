@@ -9,14 +9,18 @@ Description:
 IsoBlocks is a library to create eye candy isometric texts.
 
 Usage:
-var iso = new IsoBlocks();
-iso.generate('Any Text here');
 
-Position it
-iso.generate('Any Text', {x: 320, y: 600})
+var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
+iso.generate('Your Text Here'); // By Default starts from the center of the screen
 
-Give it a color
-iso.generate('Any Text', {colors: ['green']})
+Position it:
+iso.generate('Your Text Here', {x: 320, y: 600});
+
+Colorize it (Presently supports- green, red, pink, blue, yellow only):
+iso.generate('Your Text Here', {x: 320, y: 600, colors: 'green'}); // Pass a color using 'colors' option
+
+Use multiple colors:
+iso.generate('Your Text Here', {x: 320, y: 600, colors: ['green', 'yellow']}); // Pass an array of colors in 'colors'
 */
 var Cube, IsoBlocks, onKeyPress;
 
@@ -93,19 +97,20 @@ IsoBlocks = (function() {
     var ch, color, colors, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
     if (config) $.extend(this.config, config);
     colors = [];
-    if (this.config.colors != null) {
+    if (config.colors) {
+      if (typeof config.colors === 'string') config.colors = [config.colors];
       colors = (function() {
         var _i, _len, _ref, _results;
-        _ref = this.config.colors;
+        _ref = config.colors;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           color = _ref[_i];
           _results.push(color.toLowerCase().replace(/^/, ' iso_color_'));
         }
         return _results;
-      }).call(this);
+      })();
+      this.config.colors = colors;
     }
-    this.config.colors = colors;
     this.current_cube_index = this.cubes.length - 1;
     _ref = this.cubes;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

@@ -9,14 +9,19 @@ Description:
 IsoBlocks is a library to create eye candy isometric texts.
 
 Usage:
-var iso = new IsoBlocks();
-iso.generate('Any Text here');
 
-Position it
-iso.generate('Any Text', {x: 320, y: 600})
+var iso = new IsoBlocks(400); // pass the number of blocks to pre-generate
+iso.generate('Your Text Here'); // By Default starts from the center of the screen
 
-Give it a color
-iso.generate('Any Text', {colors: ['green']})
+Position it:
+iso.generate('Your Text Here', {x: 320, y: 600});
+
+Colorize it (Presently supports- green, red, pink, blue, yellow only):
+iso.generate('Your Text Here', {x: 320, y: 600, colors: 'green'}); // Pass a color using 'colors' option
+
+Use multiple colors:
+iso.generate('Your Text Here', {x: 320, y: 600, colors: ['green', 'yellow']}); // Pass an array of colors in 'colors'
+
 ###
 
 $(->
@@ -82,8 +87,11 @@ class IsoBlocks
 		$.extend @config, config if config
 		colors = []
 		# Append iso_color prefix to colors
-		colors = (color.toLowerCase().replace(/^/,' iso_color_') for color in @config.colors) if @config.colors?
-		@config.colors = colors
+		if config.colors
+			if typeof config.colors is 'string'
+				config.colors = [config.colors]
+			colors = (color.toLowerCase().replace(/^/,' iso_color_') for color in config.colors)
+			@config.colors = colors
 
 		# Initialize the @current_cube_index to start using the cubes from end for current string
 		@current_cube_index = @cubes.length - 1
