@@ -20,7 +20,11 @@ $(function() {
 
 onKeyPress = function(e) {
   if (e.key === 13 || e.keyCode === 13) {
-    if (iso) return iso.generate($(e.target).val(), 320, 500);
+    if (iso) {
+      return iso.generate($(e.target).val(), 320, 500, $("input[name=color]:checked").map(function() {
+        return this.value;
+      }).get());
+    }
   }
 };
 
@@ -40,7 +44,7 @@ Colors = (function() {
 
   function Colors() {}
 
-  Colors.colors = ['yellow', 'green', ''];
+  Colors.colors = ['yellow', 'gren'];
 
   Colors.getRandomColor = function() {
     return Colors.colors[Math.floor(Math.random() * Colors.colors.length)];
@@ -56,21 +60,27 @@ IsoBlocks = (function() {
 
   IsoBlocks.prototype.origin_y = 0;
 
+  IsoBlocks.prototype.colors = '';
+
   IsoBlocks.prototype.character_spacing = 1;
 
   IsoBlocks.prototype.cubes = [];
 
   IsoBlocks.prototype.current_cube_index = 0;
 
-  IsoBlocks.prototype.cube_template = '<div class="iso_block @color unused" style="left:@leftpx; top:@toppx"></div>';
+  IsoBlocks.prototype.mono = true;
+
+  IsoBlocks.prototype.cube_template = '<div class="iso_block unused" style="left:@leftpx; top:@toppx"></div>';
 
   /*
   	Constructor
-  	@param	num_cubes	Number 	Number of cubes to pre-generate
+  	@param	num_cubes	Number 	Number of cubes to pre-generate. Default is 450.
+  	@param	mono 		Boolean	Should block be single colored. Default is true.
   */
 
-  function IsoBlocks(num_cubes) {
+  function IsoBlocks(num_cubes, mono) {
     if (num_cubes == null) num_cubes = 450;
+    this.mono = mono != null ? mono : true;
     this.preGenerateCubes(num_cubes);
   }
 
@@ -80,10 +90,22 @@ IsoBlocks = (function() {
   	@params	start_y	Number 	Starting y cordinate of the string
   */
 
-  IsoBlocks.prototype.generate = function(s, start_x, start_y) {
-    var ch, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
+  IsoBlocks.prototype.generate = function(s, start_x, start_y, colors) {
+    var ch, color, cube, current_col, current_row, index, _i, _len, _len2, _ref, _results;
     this.origin_x = start_x;
     this.origin_y = start_y;
+    this.colors = '';
+    if (colors != null) {
+      this.colors = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = colors.length; _i < _len; _i++) {
+          color = colors[_i];
+          _results.push(color.toLowerCase().replace(/^/, ' iso_color_'));
+        }
+        return _results;
+      })();
+    }
     this.current_cube_index = this.cubes.length - 1;
     _ref = this.cubes;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -110,7 +132,7 @@ IsoBlocks = (function() {
   */
 
   IsoBlocks.prototype.drawCharacter = function(ch, row, col) {
-    var arr, cube, current_ch, i, j, pos_x, pos_y, val, z, _len, _len2;
+    var arr, class_string, cube, current_ch, i, j, new_color, pos_x, pos_y, val, z, _len, _len2;
     ch = ch.toLowerCase();
     if (ch === ' ') {
       return 1;
@@ -149,6 +171,14 @@ IsoBlocks = (function() {
             cube = this.cubes[this.current_cube_index];
             cube.style.left = pos_x + 'px';
             cube.style.top = pos_y + 'px';
+            class_string = $(cube).attr('class');
+            class_string = class_string.replace(/iso_color_\w+/g, '');
+            if (this.colors.length) {
+              new_color = this.colors[Math.floor(Math.random() * this.colors.length)];
+              class_string = class_string.concat(" " + new_color);
+            }
+            console.log(class_string);
+            $(cube).removeClass().addClass(class_string);
             cube.style.zIndex = z;
             $(cube).removeClass('unused');
             this.current_cube_index--;
