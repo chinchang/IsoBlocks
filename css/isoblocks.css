@@ -1,16 +1,3 @@
-.hidden{
-	display: none;
-}
-
-body{
-	background: #EEE -webkit-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.65) 0,rgba(255, 255, 255, 0) 82%);
-	background: #EEE -moz-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.65) 0,rgba(255, 255, 255, 0) 82%);
-	background: #EEE -o-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.65) 0,rgba(255, 255, 255, 0) 82%);
-	background: #EEE -ms-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.65) 0,rgba(255, 255, 255, 0) 82%);
-	font-family: Arial;
-	min-height: 700px;
-}
-
 .iso_block{
 	position: absolute;
 	height: 15px;
@@ -86,13 +73,4 @@ body{
 
 .iso_block.unused{
 	opacity: 0;
-}
-
-input{
-	border: 1px solid #CCC;
-	padding: 5px;
-	outline: none;
-	border-radius: 3px;
-	font-size: 30px;
-	color: #888;
 }
