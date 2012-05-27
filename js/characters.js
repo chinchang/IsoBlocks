@@ -82,6 +82,12 @@ Characters = (function() {
 
   Characters.semicolon = [[0, 0], [0, 1], [0, 0], [0, 1], [1, 0]];
 
+  Characters.f_slash = [[0, 0, 0, 0, 1], [0, 0, 0, 1, 0], [0, 0, 1, 0, 0], [0, 1, 0, 0, 0], [1, 0, 0, 0, 0]];
+
+  Characters.l_square_bracket = [[1, 1, 1], [1, 0, 0], [1, 0, 0], [1, 0, 0], [1, 1, 1]];
+
+  Characters.r_square_bracket = [[1, 1, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [1, 1, 1]];
+
   return Characters;
 
 })();

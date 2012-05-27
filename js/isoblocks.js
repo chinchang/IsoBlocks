@@ -160,15 +160,21 @@ IsoBlocks = (function() {
       ch = 'semicolon';
     } else if (ch === ':') {
       ch = 'colon';
+    } else if (ch === '/') {
+      ch = 'f_slash';
+    } else if (ch === '[') {
+      ch = 'l_square_bracket';
+    } else if (ch === ']') {
+      ch = 'r_square_bracket';
     }
-    current_ch = Characters[ch];
+    if (!(current_ch = Characters[ch])) return 0;
     for (i = 0, _len = current_ch.length; i < _len; i++) {
       arr = current_ch[i];
       for (j = 0, _len2 = arr.length; j < _len2; j++) {
         val = arr[j];
         if (val) {
-          pos_x = (row + i + col + j) * Cube.width * 0.85 + this.config.x;
-          pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.85 + this.config.y;
+          pos_x = (row + i + col + j) * Cube.width * 0.8 + this.config.x;
+          pos_y = (row + i - (col + j)) * Cube.height / 2 * 0.8 + this.config.y;
           z = parseInt(100 * pos_y - 40 * pos_x + 2000, 10);
           /*
           					If its not the first time, we have already generated cubes.
