@@ -140,8 +140,8 @@ class IsoBlocks
 			for val, j in arr
 				if val
 					# Calulate isometric position of the cube
-					pos_x = (row+i+col+j) * Cube.width * 0.85 + @config.x
-					pos_y = (row+i-(col+j)) * Cube.height / 2 * 0.85 + @config.y
+					pos_x = (row+i+col+j) * Cube.width * 0.8 + @config.x
+					pos_y = (row+i-(col+j)) * Cube.height / 2 * 0.8 + @config.y
 					
 					# Calculate z-index according to the cube's position
 					z = parseInt 100 * pos_y - 40 * pos_x + 2000, 10
