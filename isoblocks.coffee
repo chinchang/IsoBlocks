@@ -134,8 +134,12 @@ class IsoBlocks
 		else if ch is '-' then ch = 'dash'
 		else if ch is ';' then ch = 'semicolon'
 		else if ch is ':' then ch = 'colon'
+		else if ch is '/' then ch = 'f_slash'
+		else if ch is '[' then ch = 'l_square_bracket'
+		else if ch is ']' then ch = 'r_square_bracket'
 
-		current_ch = Characters[ch]
+		# Skip if character matrix not found
+		if not current_ch = Characters[ch] then return 0
 		for arr, i in current_ch
 			for val, j in arr
 				if val
